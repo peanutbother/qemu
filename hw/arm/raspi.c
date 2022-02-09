@@ -230,7 +230,7 @@ static void setup_boot(MachineState *machine, RaspiProcessorId processor_id,
 
     s->binfo.board_id = MACH_TYPE_BCM2708;
     s->binfo.ram_size = ram_size;
-    s->binfo.nb_cpus = machine->smp.cpus;
+    //s->binfo.nb_cpus = machine->smp.cpus;
 
     if (processor_id <= PROCESSOR_ID_BCM2836) {
         /*
