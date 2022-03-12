@@ -14,6 +14,7 @@
 #include "qemu/module.h"
 #include "hw/arm/bcm2836.h"
 #include "hw/arm/raspi_platform.h"
+#include "hw/arm/raspi4_platform.h"
 #include "hw/sysbus.h"
 #include "trace.h"
 
@@ -342,6 +343,10 @@ static void bcm2838_realize(DeviceState *dev, Error **errp)
                            qdev_get_gpio_in(gicdev,
                                            PPI(n, GIC400_MAINTAINANCE_IRQ)));
 
+        /* Connect UART0 to the interrupt controller */
+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals.uart0), 0, 
+                           qdev_get_gpio_in(gicdev, RPI4_INTERRUPT_UART0));
+
         /* Connect timers from the CPU to the interrupt controller */
         qdev_connect_gpio_out(cpudev, GTIMER_PHYS,
                     qdev_get_gpio_in(gicdev, PPI(n, GIC400_TIMER_NS_EL1_IRQ)));
@@ -362,6 +367,7 @@ static void bcm2838_realize(DeviceState *dev, Error **errp)
     /* Pass through outbound IRQ lines from the GIC */
     qdev_pass_gpios(DEVICE(&s->gic), DEVICE(&s->peripherals), NULL);
 }
+
 static void bcm2837_class_init(ObjectClass *oc, void *data)
 {
     DeviceClass *dc = DEVICE_CLASS(oc);

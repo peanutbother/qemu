@@ -1,0 +1,7 @@
+#ifndef HW_ARM_RASPI4_PLATFROM_H
+#define HW_ARM_RASPI4_PLATFROM_H
+
+/* SPI */
+#define RPI4_INTERRUPT_UART0   121
+
+#endif
